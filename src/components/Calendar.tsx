@@ -191,8 +191,8 @@ const MyCalendar: React.FC = () => {
               <h2 className="text-xl font-bold mb-2">{selectedEvent.title}</h2>
               <p>Description: {selectedEvent.description}</p>
               <p>Location: {selectedEvent.location}</p>
-              <p>Start: {selectedEvent.start.toString()}</p>
-              <p>End: {selectedEvent.end.toString()}</p>
+              <p>Start: {moment(selectedEvent.start).format('MM/DD/YYYY, dddd @ h:mmA')}</p>
+              <p>End: {moment(selectedEvent.end).format('MM/DD/YYYY, dddd @ h:mmA')}</p>
               <p>
                 Link:{' '}
                 <Link href={selectedEvent.link} className="text-violet-500 hover:text-violet-400">
