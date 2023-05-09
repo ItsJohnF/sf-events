@@ -174,9 +174,16 @@ const MyCalendar: React.FC = () => {
               </label>
               <button
                 type="submit"
-                className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg"
+                className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg mr-2"
               >
                 Save
+              </button>
+              <button
+                type="button"
+                className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg"
+                onClick={() => setIsEditing(false)}
+              >
+                Close
               </button>
             </form>
           ) : (
