@@ -18,9 +18,12 @@ interface CalendarEvent {
   end: Date;
   link: string;
 }
+interface UpdateEventProps {
+  updateEvent: (updatedEvent: CalendarEvent) => void;
+}
 
 const MyCalendar: React.FC = () => {
-  const events: CalendarEvent[] = [
+  const initialEvents: CalendarEvent[] = [
     {
       title: 'Sample Event',
       description: 'This is a sample event description.',
@@ -33,31 +36,63 @@ const MyCalendar: React.FC = () => {
     // More events...
   ];
 
+  const [events, setEvents] = useState<CalendarEvent[]>(initialEvents);
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
 
   const handleEventClick = (eventInfo: CalendarEvent) => {
     setSelectedEvent(eventInfo);
   };
 
-  const EventModal: React.FC = () => {
+  const updateEvent = (updatedEvent: CalendarEvent) => {
+    if (selectedEvent) {
+      setEvents((prevEvents) => {
+        return prevEvents.map((event) => {
+          if (event.title === selectedEvent.title && event.start.getTime() === selectedEvent.start.getTime()) {
+            return updatedEvent;
+          }
+          return event;
+        });
+      });
+    }
+  };   
+
+  const EventModal: React.FC<UpdateEventProps> = ({ updateEvent }) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [editedEvent, setEditedEvent] = useState(selectedEvent);
+    const [editedEvent, setEditedEvent] = useState<CalendarEvent | null>(selectedEvent || null);
   
     if (!selectedEvent) return null;
-  
+    
     const handleEditSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      // Handle the changes and update the event data
-      // ...
-  
+    
+      if (editedEvent) {
+        // Handle the changes and update the event data
+        updateEvent(editedEvent);
+    
+        // Update the selectedEvent state to reflect the changes in the modal
+        setSelectedEvent(editedEvent);
+      }
+    
       // Toggle edit mode off after saving the changes
       setIsEditing(false);
     };
   
+    const getAdjustedDate = (date: Date) => {
+      const localDate = new Date(date);
+      const offset = localDate.getTimezoneOffset() * 60 * 1000;
+      const adjustedDate = new Date(localDate.getTime() - offset);
+      return adjustedDate;
+    };    
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
-      setEditedEvent({ ...editedEvent, [name]: value });
-    };
+      if (name === 'start' || name === 'end') {
+        const adjustedDate = getAdjustedDate(new Date(value));
+        setEditedEvent((prevState) => ({ ...prevState as CalendarEvent, [name]: adjustedDate }));
+      } else {
+        setEditedEvent((prevState) => ({ ...prevState as CalendarEvent, [name]: value }));
+      }
+    };    
   
     return (
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
@@ -67,63 +102,75 @@ const MyCalendar: React.FC = () => {
               {/* Render editable fields and a save button when in edit mode */}
               <label className="block mb-1">
                 Title:
-                <input
-                  type="text"
-                  name="title"
-                  value={editedEvent.title}
-                  onChange={handleChange}
-                  className="block w-full p-2 border border-gray-300 rounded"
-                />
+                {editedEvent && (
+                  <input
+                    type="text"
+                    name="title"
+                    value={editedEvent?.title || ''}
+                    onChange={handleChange}
+                    className="block w-full p-2 border border-gray-300 rounded"
+                  />
+                )}
               </label>
               <label className="block mb-1">
                 Description:
-                <input
-                  type="text"
-                  name="description"
-                  value={editedEvent.description}
-                  onChange={handleChange}
-                  className="block w-full p-2 border border-gray-300 rounded"
-                />
+                {editedEvent && (
+                  <input
+                    type="text"
+                    name="description"
+                    value={editedEvent?.description || ''}
+                    onChange={handleChange}
+                    className="block w-full p-2 border border-gray-300 rounded"
+                  />
+                )}
               </label>
               <label className="block mb-1">
                 Location:
-                <input
-                  type="text"
-                  name="location"
-                  value={editedEvent.location}
-                  onChange={handleChange}
-                  className="block w-full p-2 border border-gray-300 rounded"
-                />
+                {editedEvent && (
+                  <input
+                    type="text"
+                    name="location"
+                    value={editedEvent?.location || ''}
+                    onChange={handleChange}
+                    className="block w-full p-2 border border-gray-300 rounded"
+                  />
+                )}
               </label>
               <label className="block mb-1">
                 Start:
-                <input
-                  type="datetime-local"
-                  name="start"
-                  value={editedEvent.start.toISOString().substring(0, 16)}
-                  onChange={handleChange}
-                  className="block w-full p-2 border border-gray-300 rounded"
-                />
+                {editedEvent && (
+                  <input
+                    type="datetime-local"
+                    name="start"
+                    value={editedEvent?.start.toISOString().substring(0, 16) || ''}
+                    onChange={handleChange}
+                    className="block w-full p-2 border border-gray-300 rounded"
+                  />
+                )}
               </label>
               <label className="block mb-1">
                 End:
-                <input
-                  type="datetime-local"
-                  name="end"
-                  value={editedEvent.end.toISOString().substring(0, 16)}
-                  onChange={handleChange}
-                  className="block w-full p-2 border border-gray-300 rounded"
-                />
+                {editedEvent && (
+                  <input
+                    type="datetime-local"
+                    name="end"
+                    value={editedEvent?.end.toISOString().substring(0, 16) || ''}
+                    onChange={handleChange}
+                    className="block w-full p-2 border border-gray-300 rounded"
+                  />
+                )}
               </label>
               <label className="block mb-1">
                 Link:
-                <input
-                  type="text"
-                  name="link"
-                  value={editedEvent.link}
-                  onChange={handleChange}
-                  className="block w-full p-2 border border-gray-300 rounded"
-                />
+                {editedEvent && (
+                  <input
+                    type="text"
+                    name="link"
+                    value={editedEvent?.link || ''}
+                    onChange={handleChange}
+                    className="block w-full p-2 border border-gray-300 rounded"
+                  />
+                )}
               </label>
               <button
                 type="submit"
@@ -177,7 +224,7 @@ const MyCalendar: React.FC = () => {
           endAccessor="end"
           onSelectEvent={handleEventClick}
         />
-        <EventModal />
+        <EventModal updateEvent={updateEvent} />
       </div>
     </div>
   );
