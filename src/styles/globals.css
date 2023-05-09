@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 0, 0, 0;
+  --background-end-rgb: 0, 0, 0;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,4 +24,108 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+/* Global Calendar CSS */
+
+/* Change the background color of the calendar */
+.rbc-calendar {
+  background-color: #1f1f1f;
+}
+
+/* Change the color of the interior of the event button (Month) */
+.rbc-event-content {
+  background-color: #111111;
+  color: #ffffff;
+}
+
+/* Change the color of the exterior of the event button (Month) */
+.rbc-event {
+  background-color: #111111 !important;
+}
+
+/* Change the color of the exterior of the event button (Week / Day) */
+.rbc-time-view .rbc-event {
+  box-shadow: none !important;
+  border: 1px solid #111111 !important;
+}
+
+/* Change horizontal grid lines for Week and Day views */
+.rbc-time-view .rbc-time-content > * > * .rbc-time-slot {
+  border-top-color: #373c42 !important;
+}
+
+/* Change vertical grid lines for Week and Day views */
+.rbc-time-view .rbc-time-content > * > * .rbc-time-header-content > div {
+  border-right-color: #373c42 !important;
+}
+
+/* Change border color for the time gutter */
+.rbc-time-view .rbc-time-content > .rbc-time-gutter > .rbc-time-slot {
+  border-top-color: #373c42 !important;
+}
+
+/* Change grid line colors for Week and Day views */
+.rbc-time-view .rbc-time-content > * > .rbc-timeslot-group {
+  border-color: #373c42;
+}
+
+/* Change the header of the Week and Day views */
+.rbc-time-header {
+  background-color: #1f1f1f
+}
+
+/* Change the header of the Week and Day views for the current day */
+.rbc-time-header-content .rbc-today {
+  background-color: #2c2c2c80;
+} 
+
+/* Change the background of the Week and Day views */
+.rbc-time-view {
+  background-color: #1f1f1f;
+}
+
+/* Change the color of the time */
+.rbc-time-content {
+  color: #C4B5FD;
+}
+
+/* Change the color of the numbers (dates) in the calendar */
+.rbc-date-cell {
+  color: #C4B5FD;
+}
+
+/* Change the color of the numbers (dates) in the calendar out of range */
+.rbc-calendar .rbc-off-range {
+  color: #C4B5FD;
+}
+
+/* Change the color of the text inside the toolbar button when not focused */
+.rbc-toolbar button:not(:focus) {
+  color: #808080 !important;
+}
+
+/* Change the color of the numbers (dates) in the calendar's toolbar */
+.rbc-toolbar .rbc-btn-group button {
+  color: #ffffff80;
+}
+
+/* Change the background color of the "today" cell in the month view */
+.rbc-month-view .rbc-day-bg.rbc-today {
+  background-color: #2c2c2c80;
+}
+
+/* Change the background color of the "today" cell in the week and day views */
+.rbc-time-view .rbc-day-slot.rbc-today {
+  background-color: #2c2c2c80;
+}
+
+/* Change the color of the date background (Month) */
+.rbc-month-view .rbc-day-bg{
+  background-color: #1f1f1f;
+}
+
+/* Change the color of the date background out of range (Month) */
+.rbc-month-view .rbc-off-range-bg {
+  background-color: #55555580;
 }
