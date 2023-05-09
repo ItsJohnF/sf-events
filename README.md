@@ -1,3 +1,8 @@
+# sf-events
+A calendar website made to keep track of events happening in San Francisco using NextJS, Tailwind, and TypeScript
+
+---
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
