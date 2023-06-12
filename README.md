@@ -1,5 +1,5 @@
 # sf-events
-A calendar website made to keep track of events happening in San Francisco using NextJS, Tailwind, and TypeScript
+A calendar website meant to keep track of events happening in San Francisco using NextJS, Tailwind, and TypeScript [IN PROGRESS]
 
 ---
 
